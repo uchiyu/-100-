@@ -1,5 +1,5 @@
 s = "パタトクカシーー"
-result = "";
+result = '';
 for num in 0..s.size do
   if num%2 == 1 then
     result << s[num]
