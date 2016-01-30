@@ -1,24 +1,12 @@
-text = 'Hi He Lied Because Boron Could Not Oxidize Fluorine. New Nations Might Also Sign Peace Security Clause. Arthur King Can.'
+text = 'Now I need a drink, alcoholic of course, after the heavy lectures involving quantum mechanics.'
 
 arr = text.split(' ')
-put_point = [ 1, 5, 6, 7, 8, 9, 15, 16 ,19 ]
-hash_array = {}
-insert_flag = false
+word_num = {}
 
 i = 0
 arr.each do |word|
-  put_point.each do |point|
-    if i == point
-      hash_array[word[0]] = i
-      insert_flag = true
-    end
-  end
-  if ( insert_flag != true )
-    hash_array[word[0..1]] = i
-  else
-    insert_flag = false
-  end
+  word_num[i] = word.length
   i = i + 1
 end
 
-puts hash_array["Hi"]
+puts word_num[0]
