@@ -1,18 +1,21 @@
-def word_bi_gram(text, point)
+def word_ngram(text, n, point)
   arr = text.split(' ')
-  print arr[point-1], ' ', arr[point], ' ', arr[point+1]
+  for num in point-(n-1)..point+(n-1)
+    print arr[num], ' '
+  end
   puts
-  
 end
 
-def char_bi_gram(text, point)
+def char_ngram(text, n, point)
   str = text.gsub(' ', '')
-  print str[point-1], ' ', str[point], ' ', str[point+1]
+  for num in point-(n-1)..point+(n-1)
+    print str[num], ' '
+  end
   puts
 end
 
 text = 'I am an NLPer'
-word_bi_gram(text, 2)
-char_bi_gram(text, 2)
+word_ngram(text, 2, 2)
+char_ngram(text, 2, 2)
 
 
