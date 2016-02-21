@@ -20,4 +20,3 @@ end
 
 name = 'neko.txt.mecab'
 mecab_data = read_mecab(name)
-puts mecab_data[2]
