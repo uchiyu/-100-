@@ -24,7 +24,7 @@ mecab_data = read_mecab(name)
 mecab_data.each do | block_data |
   block_data.each do | data |
     if data[:pos] == '動詞'
-      puts data[:surface]
+      puts data[:base]
     end
   end
 end
