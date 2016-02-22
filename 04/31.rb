@@ -20,4 +20,11 @@ end
 
 name = 'neko.txt.mecab'
 mecab_data = read_mecab(name)
-puts mecab_data
+
+mecab_data.each do | block_data |
+  block_data.each do | data |
+    if data[:pos] == '動詞'
+      puts data[:base]
+    end
+  end
+end
