@@ -26,7 +26,6 @@ mecab_data = read_mecab(name)
 count = Hash.new
 mecab_data.each do | block_data |
   block_data.each do | word |
-    next if word == '*'
     count[word[:base]] += 1 unless count[word[:base]] == nil
     count[word[:base]] = 1 if count[word[:base]] == nil
   end
@@ -46,6 +45,7 @@ i = 0
 word_count = Array.new
 label = Hash.new
 count.sort{|(key1, cnt1), (key2, cnt2)| cnt2 <=> cnt1 }.map do | word, count |
+  next if word == '*'
   if word_count[count.to_i/1000] == nil
     word_count[count.to_i/1000] = 1
   else

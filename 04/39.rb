@@ -25,8 +25,8 @@ mecab_data = read_mecab(name)
 count = Hash.new
 mecab_data.each do | block_data |
   block_data.each do | word |
-    count[word[:base]] = 1 if count[word[:base]] == nil
     count[word[:base]] += 1 unless count[word[:base]] == nil
+    count[word[:base]] = 1 if count[word[:base]] == nil
   end
 end
 
