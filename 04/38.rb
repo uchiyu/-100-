@@ -26,8 +26,9 @@ mecab_data = read_mecab(name)
 count = Hash.new
 mecab_data.each do | block_data |
   block_data.each do | word |
-    count[word[:base]] = 1 if count[word[:base]] == nil
+    next if word == '*'
     count[word[:base]] += 1 unless count[word[:base]] == nil
+    count[word[:base]] = 1 if count[word[:base]] == nil
   end
 end
 
@@ -52,7 +53,7 @@ count.sort{|(key1, cnt1), (key2, cnt2)| cnt2 <=> cnt1 }.map do | word, count |
   end
 end
 
-// nilへの処理
+# nilへの処理
 word_count.size.times { |i|
   word_count[i] = 0 unless word_count[i]
 }

@@ -1,7 +1,6 @@
 # -*- coding: utf-8
 require 'rubygems'
-require 'natto'
-require 'gruff'
+require 'gnuplot'
 
 def read_mecab(file_name)
   mecab_data = Array.new
@@ -26,35 +25,36 @@ mecab_data = read_mecab(name)
 count = Hash.new
 mecab_data.each do | block_data |
   block_data.each do | word |
-    next if word == '*'
-    count[word[:base]] += 1 unless count[word[:base]] == nil
     count[word[:base]] = 1 if count[word[:base]] == nil
+    count[word[:base]] += 1 unless count[word[:base]] == nil
   end
 end
 
-# グラフの設定
-g = Gruff::StackedBar.new()
-g.title = '単語の出現頻度'
-g.font = '/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf'
-g.title_font_size = 36
-g.hide_title = false
-g.y_axis_increment = 2000 #目盛の区切り
-g.maximum_value = 15000
-g.minimum_value = 0
-
-i = 0
 key_count = Array.new
-key_word = Hash.new
-count.sort{|(key1, cnt1), (key2, cnt2)| cnt2 <=> cnt1 }.map do | word, count |
-  if ( i >= 10 )
-    break
-  end
+count.sort{|(key1, cnt1), (key2, cnt2)| cnt1 <=> cnt2 }.map do | word, count |
+  next if word == '*'
   key_count.push(count.to_i)
-  puts key_word[i] = word
-  i = i + 1
 end
 
-g.data '出現頻度', key_count
-g.labels = key_word
-g.marker_font_size = 16
-g.write("37.png")
+horizontal = Array.new
+key_count.size.times do |i|
+  horizontal[i+1] = i+1
+end
+
+## グラフの設定
+Gnuplot.open { |gp|
+  Gnuplot::Plot.new(gp) { |plot|
+    plot.terminal("png")
+    plot.output("39.png")
+    plot.title("Zipf")
+    plot.logscale("y")
+
+    # プロットするデータをDataSetへ込めてPlot#dataに設定する
+    plot.data << Gnuplot::DataSet.new([horizontal, key_count]) { |ds|
+      ds.with = "lines"
+      ds.notitle
+    }
+  }
+}
+
+
