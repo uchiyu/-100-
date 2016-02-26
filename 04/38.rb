@@ -42,18 +42,26 @@ g.maximum_value = 15000
 g.minimum_value = 0
 
 i = 0
-key_count = Array.new
-key_word = Hash.new
+word_count = Array.new
+label = Hash.new
 count.sort{|(key1, cnt1), (key2, cnt2)| cnt2 <=> cnt1 }.map do | word, count |
-  if ( i >= 10 )
-    break
+  if word_count[count.to_i/1000] == nil
+    word_count[count.to_i/1000] = 1
+  else
+    word_count[count.to_i/1000] += 1
   end
-  key_count.push(count.to_i)
-  key_word[i] = word
-  i = i + 1
 end
 
-g.data '出現頻度', key_count
-g.labels = key_word
+// nilへの処理
+word_count.size.times { |i|
+  word_count[i] = 0 unless word_count[i]
+}
+
+for num in 1..word_count.size
+  label[num-1] = (num * 1000).to_s
+end
+
+g.data '出現頻度をとる単語の種類数', word_count
+g.labels = label
 g.marker_font_size = 16
-g.write("37.png")
+g.write("38.png")
