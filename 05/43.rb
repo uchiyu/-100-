@@ -51,14 +51,18 @@ class Chunk
   attr_accessor :morphs, :dst, :srcs
 end
 
+# 修飾された語を返す
+# 返却値に動詞を含んでいるかのフラグを含む
 def modifier_to_word(dst, chunks)
+  have_verb = false
   modified_word = ''
   return modified_word if dst == -1
   chunks[dst].morphs.each do |morph|
     pos =morph.pos.to_s.force_encoding("UTF-8")
+    have_verb = true if pos  =~ /動詞/
     modified_word += morph.surface.to_s unless pos  =~ /記号/
   end
-  return modified_word
+  return modified_word, have_verb
 end
 
 parser = CaboCha::Parser.new
@@ -95,16 +99,27 @@ open('neko.txt.cabocha', 'r').each do |word|
   end
 end
 
+have_noun = false
+have_verb = false
 chunks_lists.each do |chunks|
   chunks.each do |chunk|
-    
-    modified_word = modifier_to_word(chunk.dst.to_s.delete('D').to_i, chunks)
+    tmp = modifier_to_word(chunk.dst.to_s.delete('D').to_i, chunks)
+    modified_word = tmp[0]
+    have_verb = tmp[1]
     next if modified_word == ''
     
     # 出力処理
+    surface = ''
     chunk.morphs.each do |morph|
-      print morph.surface unless morph.pos.to_s.strip == '記号'
+      have_noun = true if morph.pos.to_s.strip == '名詞'
+      surface += morph.surface.to_s unless morph.pos.to_s.strip == '記号'
     end
-    print "\t", modified_word , "\n"
+
+    # フラグが立っていれば出力
+    if have_noun && have_verb
+      print surface, "\t", modified_word , "\n"
+    end
+    have_noun = false
+    have_verb = false
   end
 end
