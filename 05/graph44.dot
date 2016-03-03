@@ -1,11 +1,36 @@
 digraph G {
-  modify1[label="どこで"];
-  modified[label="つかぬ。"];
-  modify2[label="生れたか"];
-  modify3[label="とんと"];
-  modify4[label="見当が"];
-  modify1 -> modified;
-  modify2 -> modified;
-  modify3 -> modified;
-  modify4 -> modified;
+  subgraph cluster0 {
+  }
+  subgraph cluster1 {
+    modify0and1[label="何でも"];
+    modified0[label="薄暗い"];
+    modify0and1 -> modified0;
+  }
+  subgraph cluster2 {
+  }
+  subgraph cluster3 {
+    modify1and1[label="薄暗い"];
+    modified1[label="所で"];
+    modify1and2[label="じめじめした"];
+    modify1and1 -> modified1;
+    modify1and2 -> modified1;
+  }
+  subgraph cluster4 {
+  }
+  subgraph cluster5 {
+    modify2and1[label="所で"];
+    modified2[label="泣いて"];
+    modify2and2[label="ニャーニャー"];
+    modify2and1 -> modified2;
+    modify2and2 -> modified2;
+  }
+  subgraph cluster6 {
+  }
+  subgraph cluster7 {
+    modify3and1[label="泣いて"];
+    modified3[label="記憶している。"];
+    modify3and2[label="いた事だけは"];
+    modify3and1 -> modified3;
+    modify3and2 -> modified3;
+  }
 }
