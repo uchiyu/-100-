@@ -76,12 +76,12 @@ def make_direction_graph(chunks)
   gv = Gviz.new
   i = 0
   chunks.each do |chunk|
-    modify_words_id = Array.new # 修飾語のグラフの要素ID
-    modified_word = '' # 修飾される語
-    modify_words = Array.new # 修飾する語を格納する配列
-
     gv.subgraph do |sub_graph|
-        # 各グラフの生成
+      modify_words_id = Array.new # 修飾語のグラフの要素ID
+      modified_word = '' # 修飾される語
+      modify_words = Array.new # 修飾する語を格納する配列
+
+      # 各グラフの生成
       # 係り元の探索
       modified_word = chunk_words(chunk) #係り先の文字
       next if chunk.srcs.size <= 0
