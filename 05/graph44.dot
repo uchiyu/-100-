@@ -1,2 +1,11 @@
 digraph G {
+  modify1[label="どこで"];
+  modified[label="つかぬ。"];
+  modify2[label="生れたか"];
+  modify3[label="とんと"];
+  modify4[label="見当が"];
+  modify1 -> modified;
+  modify2 -> modified;
+  modify3 -> modified;
+  modify4 -> modified;
 }

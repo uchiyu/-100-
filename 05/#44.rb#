@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require 'cabocha'
 require 'gviz'
 
@@ -5,8 +6,8 @@ class Morph
   def initialize(mecab_line_data)
     line_data = mecab_line_data.split(/\t/)
     return if line_data[0] =~ /[EOS]/
-    line_data[0] = line_data[0].force_encoding("utf-8").gsub('　', '') # 全角空白の削除
-    return if line_data[0] == ''
+    line_data[0] = line_data[0].gsub(/(\s|　)+/, '') # 全角空白の削除
+    return if line_data[0] = ''
     @surface = line_data[0]
     mecab_data_split(line_data[1])
   end
@@ -72,41 +73,6 @@ def chunk_words(chunk)
   return chunk_text
 end
 
-def make_direction_graph(chunks)
-  gv = Gviz.new
-  modify_words_id = Array.new # 修飾語のグラフの要素ID
-  modified_word = ''
-
-  modify_words = Array.new
-  chunks.each do |chunk|
-    #chunks.each do |chunk|
-    # 係り元の探索
-    modified_word = chunk_words(chunk) #係り先の文字
-    next if chunk.srcs.size <= 0
-    # 修飾元の語を配列に格納
-    chunk.srcs.each do |num|
-      tmp = chunk_words(chunks[num.to_i]).to_s.strip# 係り元の語を抽出
-      next if tmp == ''
-      modify_words.push(tmp) # 係り元の語を追加
-      modify_words_id.push("modify" + modify_words.size.to_s)
-    end
-    # グラフへ要素の追加
-    modify_words_id.each do |id|
-      gv.add %I(#{id}) => :modified
-    end
-  end
-
-  # グラフのノードの編集
-  modify_words_id.zip(modify_words).map do |id, word|
-    print id, '  ', word, "\n"
-    gv.node id.to_sym, label: word
-  end
-  print "modified  ", modified_word, "\n"
-  gv.node :modified, label: modified_word
-
-  gv.save :graph44, :png
-end
-
 parser = CaboCha::Parser.new
 chunks_lists = Array.new()
 text = ''
@@ -141,42 +107,42 @@ open('neko.txt.cabocha', 'r').each do |word|
   end
 end
 
-make_direction_graph(chunks_lists[3])
+chunks_lists[1].each do |chunk|
+  puts chunk_words(chunk)
+end
 
-#gv = Gviz.new
-#modify_words_id = Array.new # 修飾語のグラフの要素ID
-#modified_word = ''
-#
-##chunks_lists.each do |chunks|
-#  modify_words = Array.new
-#chunks_lists[1].each do |chunk|
-#  #chunks.each do |chunk|
-#    # 係り元の探索
-#    modified_word = chunk_words(chunk) #係り先の文字
-#    print modified_word, "\n"
-#    next if chunk.srcs.size <= 0
-#    # 修飾元の語を配列に格納
-#    print chunk_words(chunk), '  ', chunk.srcs.size, "\n"
-#    chunk.srcs.each do |num|
-#      tmp = chunk_words(chunks_lists[1][num.to_i]).to_s.strip# 係り元の語を抽出
-#      next if tmp == ''
-#      modify_words.push(tmp) # 係り元の語を追加
-#      print chunk_words(chunks_lists[1][num.to_i]).to_s.strip, "aaaaa\n"
-#      modify_words_id.push("modify" + modify_words.size.to_s)
-#    end
-#    # グラフへ要素の追加
-#    modify_words_id.each do |id|
-#      gv.add %I(#{id}) => :modified
-#    end
-#  end
-#
-#  # グラフのノードの編集
-#  puts modified_word
-#  gv.node :modified, label: modified_word
-#  modify_words_id.zip(modify_words).map do |id, word|
-#    print id, '  ', word, "\n"
-#    gv.node id.to_sym, label: word
-#  #end
-#end
-#
-#gv.save :graph44, :png
+gv = Gviz.new
+modify_words_id = Array.new # 修飾語のグラフの要素ID
+modified_word = ''
+
+#chunks_lists.each do |chunks|
+  modify_words = Array.new
+chunks_lists[1].each do |chunk|
+  #chunks.each do |chunk|
+    # 係り元の探索
+    modified_word = chunk_words(chunk) #係り先の文字
+    print modified_word, "\n"
+    next if chunk.srcs.size <= 0
+    # 修飾元の語を配列に格納
+    print chunk_words(chunk), '  ', chunk.srcs.size, "\n"
+    chunk.srcs.each do |num|
+      modify_words.push(chunk_words(chunks_lists[1][num.to_i]).to_s.strip) # 係り元の語を抽出・追加
+      print chunk_words(chunks_lists[1][num.to_i]).to_s.strip, "aaaaa\n"
+      modify_words_id.push("modify" + modify_words.size.to_s)
+    end
+    # グラフへ要素の追加
+    modify_words_id.each do |id|
+      gv.add %I(#{id}) => :modified
+    end
+  end
+
+  # グラフのノードの編集
+  puts modified_word
+  gv.node :modified, label: modified_word
+  modify_words_id.zip(modify_words).map do |id, word|
+    print id, '  ', word, "\n"
+    gv.node id.to_sym, label: word
+  #end
+end
+
+gv.save :graph44, :png
