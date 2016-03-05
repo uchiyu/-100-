@@ -78,27 +78,43 @@ def output_chunks(chunks)
       text += morph.surface.to_s
     end
   end
-  puts text
+  return text
+  #puts text
+end
+
+def has_chank_pos(chunk, pos)
+  chunk.morphs.each do |morph|
+    next if morph.pos == nil
+    return true if morph.pos.force_encoding("utf-8") == pos
+  end
+  return false
 end
 
 def modify_block(chunks)
   chunks.length.times do |i|
     text = ''
-    chunks[i].morphs.length-1.times do |j|
-      next if chunks[i] == nil || chunks[i+1] == nil
-      next if chunks[i].morphs[j].pos == nil
+    chunks[i].morphs.length.times do |j|
       next if chunks[i].morphs[j] == nil || chunks[i].morphs[j+1] == nil
+      next if chunks[i].morphs[j].pos1 == nil || chunks[i].morphs[j+1].pos == nil
       next unless chunks[i].morphs[j].pos1.force_encoding("utf-8") == 'サ変接続' && chunks[i].morphs[j+1].pos.force_encoding("utf-8") == '助詞'
+      next if chunks[i+1] == nil
+
       text += chunk_words(chunks[i]) + chunk_words(chunks[i+1]) + "\t"
       # 係り元の探索
       particles = Array.new
       modify_blocks = Array.new
-      chunks[i].srcs.each do |num|
+
+      next unless has_chank_pos(chunks[i+1], '動詞')
+      chunks[i+1].srcs.each do |num|
         block = ''
+        push_flag = false
         chunks[num.to_i].morphs.each do |morph|
-          next if morph.surface == nil || morph.pos == nil
+          next if morph.surface == nil || morph.pos == nil || morph.pos1 == nil
+          break if morph.pos1 == 'サ変接続'
           block += morph.surface
-          particles.push(morph.base) if morph.pos.force_encoding("utf-8") == '助詞'
+
+          particles.push(morph.surface) if morph.pos.force_encoding("utf-8") == '助詞' && push_flag == false
+          push_flag = true if morph.pos.force_encoding("utf-8") == '助詞'
         end
         modify_blocks.push(block)
       end
@@ -156,6 +172,11 @@ end
 #output_chunks(chunks_lists[5])
 
 chunks_lists.each do |chunks|
+  # 例題のパターン
+  #if output_chunks(chunks) == '別段くるにも及ばんさと、主人は手紙に返事をする。'
+  #  puts output_chunks(chunks)
+  #  modify_block(chunks)
+  #end
   modify_block(chunks)
 end
 
