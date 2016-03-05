@@ -82,40 +82,38 @@ def output_chunks(chunks)
 end
 
 def modify_block(chunks)
-  chunks.each do |chunk|
+  chunks.length.times do |i|
     text = ''
-    chunk.morphs.each do |morph|
-      next if morph.pos == nil
-      next unless morph.pos.force_encoding("utf-8") == '動詞'
-      text += morph.base + "\t"
+    chunks[i].morphs.length-1.times do |j|
+      next if chunks[i] == nil || chunks[i+1] == nil
+      next if chunks[i].morphs[j].pos == nil
+      next if chunks[i].morphs[j] == nil || chunks[i].morphs[j+1] == nil
+      next unless chunks[i].morphs[j].pos1.force_encoding("utf-8") == 'サ変接続' && chunks[i].morphs[j+1].pos.force_encoding("utf-8") == '助詞'
+      text += chunk_words(chunks[i]) + chunk_words(chunks[i+1]) + "\t"
       # 係り元の探索
       particles = Array.new
       modify_blocks = Array.new
-      sahen_flag = false
-      wo_flag = false
-
-      chunk.srcs.each do |num|
+      chunks[i].srcs.each do |num|
         block = ''
         chunks[num.to_i].morphs.each do |morph|
-
-          wo_flag == true if morph.base == 'を' && morph.pos == '助詞'
-          sahen_flag == true if morph.pos1 == 'サ変接続'
-
+          next if morph.surface == nil || morph.pos == nil
           block += morph.surface
           particles.push(morph.base) if morph.pos.force_encoding("utf-8") == '助詞'
         end
         modify_blocks.push(block)
-
       end
 
       # 助詞を辞書順にソート
       text1 = ''
       text2 = ''
-      particles.zip(modify_blocks).sort {|a, b| b[1] <=> a[1]}.map do | particle, modify_block|
+      particles.zip(modify_blocks).sort {|a, b| b[1].to_s <=> a[1].to_s}.map do | particle, modify_block|
+        next if particle == nil || modify_block == nil
         text1 += particle + ' '
         text2 += modify_block + ' '
       end
-      text += text1 + "\t" + text2.force_encoding("ascii-8bit")
+
+      next if text1.strip == ''
+      text += text1.force_encoding("utf-8") + "\t" + text2.force_encoding("utf-8")
       puts text unless text == ''
     end
   end
@@ -157,5 +155,7 @@ end
 
 #output_chunks(chunks_lists[5])
 
-modify_block(chunks_lists[5])
+chunks_lists.each do |chunks|
+  modify_block(chunks)
+end
 
