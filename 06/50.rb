@@ -16,6 +16,8 @@ def split_sentence(line)
   end
 end
 
+text = ''
 File.open('nlp.txt', 'r').each_line do |line|
-  split_sentence(line)
+  text += line
 end
+split_sentence(text)
