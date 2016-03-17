@@ -1,2 +1,2 @@
-./vendor/bundle/
-./Gemfile.lock
+vendor/bundle/
+Gemfile.lock
