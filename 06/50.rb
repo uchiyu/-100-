@@ -10,14 +10,11 @@ def split_sentence(line)
     end
   end
   sentences.delete('') # 配列で文頭と文末を格納していた箇所を削除
-
-  sentences.each do |sentence|
-    puts sentence
-  end
+  return sentences
 end
 
-text = ''
-File.open('nlp.txt', 'r').each_line do |line|
-  text += line
-end
-split_sentence(text)
+#text = ''
+#File.open('nlp.txt', 'r').each_line do |line|
+#  text += line
+#end
+#puts split_sentence(text)
