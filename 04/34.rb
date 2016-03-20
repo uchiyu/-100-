@@ -1,4 +1,8 @@
-# -*- coding: utf-8 -*-
+=begin
+34. 「AのB」
+2つの名詞が「の」で連結されている名詞句を抽出せよ．
+=end
+
 require 'natto'
 
 def read_mecab(file_name)

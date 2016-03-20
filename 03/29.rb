@@ -3,8 +3,6 @@
 （ヒント: MediaWiki APIのimageinfoを呼び出して，ファイル参照をURLに変換すればよい）
 =end
 
-# per
-
 require 'json'
 require 'net/http'
 require 'uri'

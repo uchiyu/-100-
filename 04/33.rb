@@ -1,4 +1,8 @@
-# -*- coding: utf-8 -*-
+=begin
+33. サ変名詞
+サ変接続の名詞をすべて抽出せよ．
+=end
+
 require 'natto'
 
 def read_mecab(file_name)

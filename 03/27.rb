@@ -1,3 +1,7 @@
+=begin
+26の処理に加えて，テンプレートの値からMediaWikiの内部リンクマークアップを除去し，テキストに変換せよ
+=end
+
 require 'json'
 
 json_file_path = './report_britain.json'

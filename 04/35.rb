@@ -1,4 +1,8 @@
-# -*- coding: utf-8 -*-
+=begin
+35. 名詞の連接
+名詞の連接（連続して出現する名詞）を最長一致で抽出せよ．
+=end
+
 require 'natto'
 
 def read_mecab(file_name)

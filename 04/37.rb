@@ -1,4 +1,8 @@
-# -*- coding: utf-8
+=begin
+37. 頻度上位10語
+出現頻度が高い10語とその出現頻度をグラフ（例えば棒グラフなど）で表示せよ．
+=end
+
 require 'rubygems'
 require 'natto'
 require 'gruff'

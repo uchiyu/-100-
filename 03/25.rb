@@ -1,3 +1,8 @@
+=begin
+25. テンプレートの抽出
+記事中に含まれる「基礎情報」テンプレートのフィールド名と値を抽出し，辞書オブジェクトとして格納せよ．
+=end
+
 require 'json'
 
 json_file_path = './report_britain.json'

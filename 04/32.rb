@@ -1,4 +1,8 @@
-# -*- coding: utf-8 -*-
+=begin
+32. 動詞の原形
+動詞の原形をすべて抽出せよ．
+=end
+
 require 'natto'
 
 def read_mecab(file_name)

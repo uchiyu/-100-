@@ -1,3 +1,8 @@
+=begin
+26. 強調マークアップの除去
+25の処理時に，テンプレートの値からMediaWikiの強調マークアップ（弱い強調，強調，強い強調のすべて）を除去してテキストに変換せよ
+=end
+
 require 'json'
 
 json_file_path = './report_britain.json'

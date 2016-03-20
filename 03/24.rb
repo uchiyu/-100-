@@ -1,3 +1,8 @@
+=begin
+24. ファイル参照の抽出
+記事から参照されているメディアファイルをすべて抜き出せ．
+=end
+
 require 'json'
 
 json_file_path = './report_britain.json'

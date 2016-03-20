@@ -1,3 +1,8 @@
+=begin
+23. セクション構造
+記事中に含まれるセクション名とそのレベル（例えば"== セクション名 =="なら1）を表示せよ．
+=end
+
 require 'json'
 
 json_file_path = './report_britain.json'
