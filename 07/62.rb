@@ -6,8 +6,11 @@
 require "redis"
 
 redis = Redis.new
-while
-  name = gets
-  puts redis.get(name.chomp)
+count = 0
+
+redis.keys.each do |key|
+  count = count + 1 if redis.get(key.chomp) == 'Japan'
+  #print key, '  ', redis.get(key.chomp), "\n" if redis.get(key.chomp) == 'Japan'
 end
+puts count
 

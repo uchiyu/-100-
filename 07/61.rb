@@ -6,7 +6,7 @@
 require "redis"
 
 redis = Redis.new
-while
+while 1
   name = gets
   puts redis.get(name.chomp)
 end
