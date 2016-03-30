@@ -24,4 +24,5 @@ gem "ruby-stemmer"
 # Chapter 07
 # redisを利用するためのgem
 gem "redis"
+gem "mongo"
 
