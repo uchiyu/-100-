@@ -4,25 +4,36 @@ KVSを用い，アーティスト名（name）からタグと被タグ数（タ�
 =end
 
 require "json"
-require "mongo"
+require "redis"
 
-client = Mongo::Client.new([ '127.0.0.1:27017' ], :database => 'NLP100_Chapter07')
-coll = client[:artist_data]
+redis = Redis.new
 
-## データベースへの登録部分
+# データベースへの登録部分
+# 追加登録なので事前にデータを消しておく
 #file = open('artist.json')
 #file.each_line do |line|
+#  tags = Array.new
 #  json = JSON.load(line)
 #
-#  # 登録データの作成
-#  doc = {'id' => json['id'], 'gid' => json['gid'], 'name' => json['name'], 'sort_name' => json['sort_name'], 'area' => json['area'], 'begin' => json['begin'] , 'end' => json['end'], 'tags' => json['tags'], 'rating' => json['rating']}
-#  # mongoにデータに登録
-#  # puts doc
-#  result = coll.insert_one(doc)
+#  next if json['tags'] == nil
+#
+#  # tagsの例 : {"count"=>1, "value"=>"country"}
+#  #            {"count"=>1, "value"=>"england"}
+#  tags = json['tags']
+#  # redisにcountとvalueを順番にリストとして追加
+#  tags.each do |hash|
+#    redis.rpush json['name'], hash["count"]
+#    redis.rpush json['name'], hash["value"]
+#  end
 #end
 
-coll.indexes.create_one({ :name => 1 })
-coll.indexes.create_one("aliases.name": 1)
-coll.indexes.create_one("tags.value": 1)
-coll.indexes.create_one("rating.value": 1)
+while 1
+  name = gets
 
+  tags = redis.lrange(name.chomp, 0, redis.llen(name.chomp))
+  tags.length.times do |num|
+    print tags[num], "\t"
+    puts if num%2 == 1
+  end
+  puts
+end
