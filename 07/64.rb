@@ -19,6 +19,7 @@ coll = client[:artist_data]
 #  result = coll.insert_one(doc)
 #end
 
+# インデックスの登録
 coll.indexes.create_one({ :name => 1 })
 coll.indexes.create_one("aliases.name": 1)
 coll.indexes.create_one("tags.value": 1)
