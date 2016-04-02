@@ -13,5 +13,5 @@ while
   name = gets
   puts
   coll.find({"aliases.name":name.chomp}).each { |row| print row.inspect, "\n\n" }
-  #puts coll.find({"aliases.name":name.chomp})
+  puts
 end
