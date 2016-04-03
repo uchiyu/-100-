@@ -1,0 +1,32 @@
+AllCops:
+  TargetRubyVersion: 2.2
+
+# ascii以外のコメントを許可
+AsciiComments:
+  Enabled: false
+
+# ブロックコメントを許可
+Style/BlockComments:
+  Enabled: false
+
+# 行の長さを規制しない
+Style/LineLength:
+  Enabled: false
+
+# ABCテストの設定
+Metrics/AbcSize:
+  Enabled: false
+  max: 20
+
+# メソッドの行数
+Style/MethodLength:
+  Enabled: false
+  max: 30
+
+# returnの許可
+Style/RedundantReturn:
+  Enabled: false
+
+# hashの'=>'の書き方を許可
+Style/HashSyntax:
+  Enabled: false

@@ -1,26 +1,26 @@
 =begin
 06. 集合
-"paraparaparadise"と"paragraph"に含まれる文字bi-gramの集合を，それぞれ, XとYとして求め，XとYの和集合，積集合，差集合を求めよ．さらに，'se'というbi-gramがXおよびYに含まれるかどうかを調べよ．
+"paraparaparadise"と"paragraph"に含まれる文字bi-gramの集合を，
+それぞれ, XとYとして求め，XとYの和集合，積集合，差集合を求めよ．
+さらに，'se'というbi-gramがXおよびYに含まれるかどうかを調べよ．
 =end
 
 def char_ngram(text, n)
   arr = Array.new(text.length)
-  str = text.gsub(' ', '')
+  str = text.delete(' ')
   i = 0
   str.each_char do |ch|
     arr[i] = ''
-    for num in i-(n-1)..i+(n-1)
-      if ( str[num] != nil )
-        arr[i] << str[num]
-      end
+    (i - (n - 1)..i + (n - 1)).each do |num|
+      arr[i] << str[num] if str[num].nil?
     end
-    i = i + 1
+    i += 1
   end
   return arr
 end
 
-text1 = "paraparaparadise"
-text2 = "paragraph"
+text1 = 'paraparaparadise'
+text2 = 'paragraph'
 
 arr1 = char_ngram(text1, 2)
 arr2 = char_ngram(text2, 2)

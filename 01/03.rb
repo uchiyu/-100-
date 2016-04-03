@@ -12,7 +12,7 @@ word_num = {}
 i = 0
 arr.each do |word|
   word_num[i] = word.length
-  i = i + 1
+  i += 1
 end
 
 puts word_num[0]
