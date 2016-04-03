@@ -1,5 +1,8 @@
 source "https://rubygems.org"
 
+# rubocop
+gem "rubocop"
+
 # Chapter 03
 # json
 gem "json"
