@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>NLP100 No.69</title>
+  </head>
+  <body>
+    <h1>歌手データの検索</h1>
+    <ul>
+    </ul>
+    <h2>Artist Seach</h2>
+    <form method="post" action='/'>
+      <select name="elem">
+        <option value="name">アーティスト名</option>
+        <option value="tag">タグ</option>
+      </select>
+      <input type="text" name="body">
+      <input type="submit" value="Search">
+    </form>
+    <br>
+    <% unless @result.nil?  %>
+      <table border=1 >
+        <tr><th>名前</th><th>地域</th><th>投票数</th><th>平均値</th></tr>
+
+      <% @result.each do |data| %>
+        <tr>
+          <th> <%= data['name'].to_s %> </th>
+          <th> <%= data['area'].to_s %> </th>
+          <th> <%= data['rating']['count'].to_s unless data['rating'].nil? %> </th>
+          <th> <%= data['rating']['value'].to_s unless data['rating'].nil? %> </th>
+        </tr>
+      <% end %>
+      </table>
+    <% end %>
+  </body>
+</html>
